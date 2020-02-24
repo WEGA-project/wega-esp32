@@ -10,7 +10,7 @@ WebServer server(80);
 #include <HTTPClient.h>
 
 const char* ssid = "dd-wrt";
-const char* password = "HruBse1447209";
+const char* password = "PASSWORD";
 
 float pH,pHraw,tempRAW,dtem1;
 
