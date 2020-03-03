@@ -20,6 +20,13 @@ float pH,pHraw,tempRAW,dtem1;
 OneWire oneWire(23);
 DallasTemperature sensors(&oneWire);
 
+#include <Wire.h>
+// Библиотека работы с AM2320
+#include <OneWire.h>
+#include <AM2320.h>
+AM2320 th;
+float am2320temp, am2320hum;
+
 void setup() {
   Serial.begin(9600);
   //Serial.println("Booting");
@@ -72,7 +79,7 @@ void setup() {
   server.on("/", handleRoot);
   server.begin();
 
-
+  Wire.begin();
 }
 
 void loop() {
@@ -88,27 +95,30 @@ void loop() {
   a=(-x2*y1+y2*x1)/(-x2+x1);
   b=(-y2+y1)/(-x2+x1);
   
-
+//pH shield
   pHraw=AnalogReadMid(33,500000);
   pH=a+b*pHraw;
   
-  // print out the value you read:
-  //Serial.print(pHraw);
-  //Serial.print("; pH=");
-  //Serial.println(pH,3);
-  //delay(1);        // delay in between reads for stability
+//BS18B20
  sensors.requestTemperatures();
  dtem1=sensors.getTempCByIndex(0); 
  tempRAW=AnalogReadMid(32,500000);
+
+// DHT2320
+ th.Read();
+  am2320temp = th.t;
+  am2320hum = th.h;
  
 WiFiClient client;
 HTTPClient http;
+
 String httpstr="http://192.168.237.107/remote/esp32wega.php?";
 httpstr +=  "pHraw=" + fFTS(pHraw,2);
 httpstr +=  "&pH=" + fFTS(pH,3);
 httpstr +=  "&tempRAW=" + fFTS(tempRAW,3);
 httpstr +=  "&dtem1=" + fFTS(dtem1,3);
-
+httpstr +=  "&am2320temp=" +fFTS(am2320temp, 1);
+httpstr +=  "&am2320hum=" +fFTS(am2320hum, 1);
 
 http.begin(client, httpstr);
 http.GET();
@@ -118,12 +128,14 @@ http.end();
 
 void handleRoot() {
 sensors.requestTemperatures();
+//Wire.begin(21, 22);
 
 String httpstr="<meta http-equiv='refresh' content='10'>";
-       httpstr +=  "Hello World! <br>";
        httpstr += "Teperature 18b20: " + fFTS(dtem1,3) + "<br>";
        httpstr += "pH: " + fFTS(pH,3) + "<br>";
-       httpstr +=  "Analog temperature RAW=" + fFTS(tempRAW,3);
+       httpstr +=  "Analog temperature RAW: " + fFTS(tempRAW,3)+ "<br>";
+       httpstr +=  "am2320temp0: " +fFTS(am2320temp, 1) + "<br>";
+       httpstr +=  "am2320hum0: " +fFTS(am2320hum, 1) + "<br>";
        
 server.send(200, "text/html",  httpstr);
 
