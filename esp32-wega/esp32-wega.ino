@@ -8,8 +8,8 @@ WebServer server(80);
 #include <WiFiClient.h>
 #include <HTTPClient.h>
 
-const char* ssid = "dd-wrt";
-const char* password = "HruBse1447209";
+const char* ssid = "ssid";
+const char* password = "pass";
 
 float pH,pHraw,tempRAW,dtem1,dst;
 
