@@ -8,8 +8,15 @@ WebServer server(80);
 #include <WiFiClient.h>
 #include <HTTPClient.h>
 
-const char* ssid = "ssid";
-const char* password = "pass";
+// Параметры подключения к WiFi
+const char* ssid = "SSID";
+const char* password = "PASSWORD";
+
+// Параметры подключения к WEGA-Api
+String      wegaapi  = "http://192.168.237.107/wega-api/esp32wega.php";  // Адрес wega-api
+String      wegaauth = "adab637320e5c47624cdd15169276981";               // Код доступа к api
+String      wegadb   = "esp32wega";                                      // Имя базы данных
+
 
 float pH,pHraw,tempRAW,dtem1,dst;
 
@@ -27,6 +34,12 @@ AM2320 th;
 float am2320temp, am2320hum;
 double Ap,An;
 
+// ADS1115 for pH
+#include <Adafruit_ADS1015.h>
+Adafruit_ADS1115 ads;
+  //ads.setGain(GAIN_SIXTEEN);    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
+  
+  
 void setup() {
   Serial.begin(9600);
   //Serial.println("Booting");
@@ -80,47 +93,46 @@ void setup() {
   server.begin();
 
   Wire.begin();
+  ads.begin(); 
+  ads.setGain(GAIN_TWOTHIRDS);
 }
 
 void loop() {
     server.handleClient();
     ArduinoOTA.handle();
 
-  // read the input on analog pin 0:
-  long n=0;
-  float a,b;
 
-  float x1=3730; float y1=4.01;
-  float x2=2977; float y2=6.86;
-  a=(-x2*y1+y2*x1)/(-x2+x1);
-  b=(-y2+y1)/(-x2+x1);
-  
-//pH shield
-//  pHraw=AnalogReadMid(33,5);
-//  pH=a+b*pHraw;
-  
-//BS18B20
+//BS18B20 > temperature
  sensors.requestTemperatures();
  dtem1=sensors.getTempCByIndex(0); 
-tempRAW=AnalogReadMid(32,50);
 
-// DHT2320
+
+// DHT2320 > temperature and humidity
  th.Read();
   am2320temp = th.t;
   am2320hum = th.h;
 
-// EC
-ec(18,19,33,500000);
+// EC sensor
+// Electrode (d-port 1,d-port 2, a-port, averaging counter) > RAW
+ec(18,19,33,80000);
 
-// Level
-dst=us(13,14,25,5);
- 
+// Termistor for EC (port, averaging counter) > RAW
+tempRAW=AnalogReadMid(32,10000);
+
+// Level ultrasound (echo, trig, temp, averaging counter) > cm 
+dst=us(13,14,25,60);
+
+//pH RAW over ADS1115 > RAW
+float pHraw = adsdiff01(5000); 
+
+// Sending to WEGA-API 
 WiFiClient client;
 HTTPClient http;
 
-String httpstr="http://192.168.237.107/remote/esp32wega.php?";
-httpstr +=  "pHraw=" + fFTS(pHraw,2);
-httpstr +=  "&pH=" + fFTS(pH,3);
+String httpstr=wegaapi;
+httpstr +=  "?db=" + wegadb;
+httpstr +=  "&auth=" + wegaauth;
+httpstr +=  "&pHraw=" + fFTS(pHraw,2);
 httpstr +=  "&tempRAW=" + fFTS(tempRAW,3);
 httpstr +=  "&dtem1=" + fFTS(dtem1,3);
 httpstr +=  "&am2320temp=" +fFTS(am2320temp, 1);
@@ -128,6 +140,7 @@ httpstr +=  "&am2320hum=" +fFTS(am2320hum, 1);
 httpstr +=  "&Ap=" +fFTS(Ap, 3);
 httpstr +=  "&An=" +fFTS(An, 3);
 httpstr +=  "&Dst=" +fFTS(dst, 3);
+
 
 http.begin(client, httpstr);
 http.GET();
@@ -137,11 +150,10 @@ http.end();
 
 void handleRoot() {
 sensors.requestTemperatures();
-//Wire.begin(21, 22);
 
 String httpstr="<meta http-equiv='refresh' content='10'>";
        httpstr += "Teperature 18b20: " + fFTS(dtem1,3) + "<br>";
-       httpstr += "pH: " + fFTS(pH,3) + "<br>";
+       httpstr += "pH: " + fFTS(pH,0) + "<br>";
        httpstr +=  "Analog temperature RAW: " + fFTS(tempRAW,3)+ "<br>";
        httpstr +=  "am2320temp0: " +fFTS(am2320temp, 1) + "<br>";
        httpstr +=  "am2320hum0: " +fFTS(am2320hum, 1) + "<br>";
@@ -153,14 +165,30 @@ server.send(200, "text/html",  httpstr);
 
 }
 
-// Функция преобразования чисел с плавающей запятой в текст
+// Функция преобразования чисел с плавающей запятой в текст с округлением
 String fFTS(float x, byte precision) {
   char tmp[50];
   dtostrf(x, 0, precision, tmp);
   return String(tmp);
 }
 
+// Функция усреднения значений измерения напряжения на ADS1117 между портами 0 и 1
+float adsdiff01(long count) {
+    ArduinoOTA.handle();
 
+  long n=0;
+  double sensorValue=0;
+  while ( n< count){
+    n++;
+        server.handleClient();
+    ArduinoOTA.handle();
+  sensorValue = (ads.readADC_Differential_0_1())+sensorValue;
+ }
+ return sensorValue/n;
+
+}
+
+// Функция устреднения измерения аналогово порта
 float AnalogReadMid(int port, long count) {
     server.handleClient();
     ArduinoOTA.handle();
@@ -177,16 +205,17 @@ float AnalogReadMid(int port, long count) {
 
 }
 
+// Функция измерения аналогового знаения ЕС
 void ec(char d1,  char d2, char a0, long l) {
 
     Ap=0;
     An=0;
   double n = 0;
 
-    pinMode(a0, INPUT_PULLUP);
+    //pinMode(a0, INPUT_PULLUP);
+    pinMode(a0, INPUT);
     pinMode(d1, OUTPUT);
     pinMode(d2, OUTPUT);
-
 
   while (n < l) {
     n++;
@@ -213,6 +242,8 @@ void ec(char d1,  char d2, char a0, long l) {
     pinMode(d2, INPUT);
     pinMode(a0, INPUT);
 
+
+    
     Ap=Ap/n;
     An=An/n;
     
