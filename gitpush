@@ -1,4 +1,6 @@
 #!/bin/bash
+git update-index --assume-unchanged esp32-wega/esp32-wega.ino
+
 git add *
 git commit -a
 git pull
