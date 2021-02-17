@@ -8,17 +8,7 @@ WebServer server(80);
 #include <WiFiClient.h>
 #include <HTTPClient.h>
 
-// Параметры подключения к WiFi
-const char* ssid = "SSID";
-const char* password = "PASSWORD";
-
-// Параметры подключения к WEGA-Api
-String      wegaapi  = "http://192.168.237.107/wega-api/esp32wega.php";  // Адрес wega-api
-String      wegaauth = "adab637320e5c47624cdd15169276981";               // Код доступа к api
-String      wegadb   = "esp32wega";                                      // Имя базы данных
-
-
-float pH,pHraw,tempRAW,dtem1,dst;
+float pH,pHraw,tempRAW,luxRAW,dtem1,dst;
 
 // Библиотека работы с DS18b20
 #include <OneWire.h> 
@@ -29,16 +19,24 @@ DallasTemperature sensors(&oneWire);
 #include <Wire.h>
 // Библиотека работы с AM2320
 #include <OneWire.h>
-#include <AM2320.h>
-AM2320 th;
-float am2320temp, am2320hum;
+
+
+//#include <AM2320.h>
+//AM2320 th;
+//float am2320temp, am2320hum;
+
+
+#include <Adafruit_AHTX0.h>
+Adafruit_AHTX0 aht;
+
+
+
 double Ap,An;
 
 // ADS1115 for pH
 #include <Adafruit_ADS1015.h>
 Adafruit_ADS1115 ads;
   //ads.setGain(GAIN_SIXTEEN);    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
-  
   
 void setup() {
   Serial.begin(9600);
@@ -51,7 +49,7 @@ void setup() {
     ESP.restart();
   }
 
-  ArduinoOTA.setHostname("myesp32");
+  ArduinoOTA.setHostname("esp32wega-2");
 
 
 
@@ -94,7 +92,12 @@ void setup() {
 
   Wire.begin();
   ads.begin(); 
-  ads.setGain(GAIN_TWOTHIRDS);
+  //ads.setGain(GAIN_TWOTHIRDS);
+  //ads.setGain(GAIN_SIXTEEN);
+  ads.setGain(GAIN_TWOTHIRDS);  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default) 
+
+aht.begin();
+
 }
 
 void loop() {
@@ -107,23 +110,27 @@ void loop() {
  dtem1=sensors.getTempCByIndex(0); 
 
 
-// DHT2320 > temperature and humidity
- th.Read();
-  am2320temp = th.t;
-  am2320hum = th.h;
+// AHT10 > temperature and humidity
+  sensors_event_t humidity, temp;
+  aht.getEvent(&humidity, &temp);
+
 
 // EC sensor
 // Electrode (d-port 1,d-port 2, a-port, averaging counter) > RAW
 ec(18,19,33,80000);
 
 // Termistor for EC (port, averaging counter) > RAW
-tempRAW=AnalogReadMid(32,10000);
+tempRAW=AnalogReadMid(32,100000);
+
+// Photoresistor for Luxmetter 
+luxRAW=AnalogReadMid(35,10000);
+
 
 // Level ultrasound (echo, trig, temp, averaging counter) > cm 
 dst=us(13,14,25,60);
 
 //pH RAW over ADS1115 > RAW
-float pHraw = adsdiff01(5000); 
+pHraw = adsdiff01(5000); 
 
 // Sending to WEGA-API 
 WiFiClient client;
@@ -133,10 +140,11 @@ String httpstr=wegaapi;
 httpstr +=  "?db=" + wegadb;
 httpstr +=  "&auth=" + wegaauth;
 httpstr +=  "&pHraw=" + fFTS(pHraw,2);
-httpstr +=  "&tempRAW=" + fFTS(tempRAW,3);
-httpstr +=  "&dtem1=" + fFTS(dtem1,3);
-httpstr +=  "&am2320temp=" +fFTS(am2320temp, 1);
-httpstr +=  "&am2320hum=" +fFTS(am2320hum, 1);
+httpstr +=  "&ECtempRAW=" + fFTS(tempRAW,3);
+httpstr +=  "&LightRAW=" + fFTS(luxRAW,3);
+httpstr +=  "&RootTemp=" + fFTS(dtem1,3);
+httpstr +=  "&AirTemp=" +fFTS(temp.temperature, 3);
+httpstr +=  "&AirHum=" +fFTS(humidity.relative_humidity, 3);
 httpstr +=  "&Ap=" +fFTS(Ap, 3);
 httpstr +=  "&An=" +fFTS(An, 3);
 httpstr +=  "&Dst=" +fFTS(dst, 3);
@@ -151,15 +159,20 @@ http.end();
 void handleRoot() {
 sensors.requestTemperatures();
 
+  sensors_event_t humidity, temp;
+  aht.getEvent(&humidity, &temp);// populate temp and humidity objects with fresh data
+
 String httpstr="<meta http-equiv='refresh' content='10'>";
-       httpstr += "Teperature 18b20: " + fFTS(dtem1,3) + "<br>";
-       httpstr += "pH: " + fFTS(pH,0) + "<br>";
-       httpstr +=  "Analog temperature RAW: " + fFTS(tempRAW,3)+ "<br>";
-       httpstr +=  "am2320temp0: " +fFTS(am2320temp, 1) + "<br>";
-       httpstr +=  "am2320hum0: " +fFTS(am2320hum, 1) + "<br>";
+       httpstr +=  "RootTemp: " + fFTS(dtem1,3) + "<br>";
+       httpstr +=  "pHraw: " + fFTS(pHraw,2) + "<br>";
+       httpstr +=  "ECtempRAW: " + fFTS(tempRAW,3)+ "<br>";
+       httpstr +=  "LightRAW: " +fFTS(luxRAW, 3) + "<br>";
+       httpstr +=  "AirTemp: " +fFTS(temp.temperature, 3) + "<br>";
+       httpstr +=  "AirHum: " +fFTS(humidity.relative_humidity, 3) + "<br>";
        httpstr +=  "Ap: " +fFTS(Ap, 3) + "<br>";
        httpstr +=  "An: " +fFTS(An, 3) + "<br>";
-       httpstr +=  "Dst_raw: " +fFTS(dst, 3) + "<br>";
+       httpstr +=  "Dst: " +fFTS(dst, 3) + "<br>";
+
        
 server.send(200, "text/html",  httpstr);
 
@@ -219,8 +232,7 @@ void ec(char d1,  char d2, char a0, long l) {
 
   while (n < l) {
     n++;
-            
-                  //ArduinoOTA.handle();    
+
     digitalWrite(d1, HIGH);
     delayMicroseconds(1);
     Ap = analogRead(a0)+Ap; 
@@ -291,8 +303,8 @@ float us(int trg, int ech, float temp, long cnt) {
       
  }
  
- float vSound=20.046796*sqrt(273.15+temp);
- return (vSound/10000)*((float(microssum)/count)/2);
- //return (float(microssum)/count);
+ float vSound=20.046796*sqrt(273.15+25);
+ return (vSound/10000)*((float(microssum)/count)/2); // В сантиметрах
+ //return (float(microssum)/count);  // В миллисекундах
 }
 
