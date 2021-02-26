@@ -9,35 +9,25 @@ WebServer server(80);
 #include <HTTPClient.h>
 
 float pH,pHraw,tempRAW,luxRAW,dtem1,dst;
+double Ap,An;
+
+#include <Wire.h>      // Поддержка шины i2c
+#include <OneWire.h>   // Поддержка шины 1-Wire
 
 // Библиотека работы с DS18b20
-#include <OneWire.h> 
-#include <DallasTemperature.h>
+#include "src/DallasTemperature/DallasTemperature.h"
 OneWire oneWire(23);
 DallasTemperature sensors(&oneWire);
 
-#include <Wire.h>
-// Библиотека работы с AM2320
-#include <OneWire.h>
-
-
-//#include <AM2320.h>
-//AM2320 th;
-//float am2320temp, am2320hum;
-
-
-#include <Adafruit_AHTX0.h>
+// Библиотека работы с AHT10
+#include "src/Adafruit_AHTX0/Adafruit_AHTX0.h"
 Adafruit_AHTX0 aht;
 
-
-
-double Ap,An;
-
 // ADS1115 for pH
-#include <Adafruit_ADS1015.h>
+#include "src/Adafruit_ADS1X15/Adafruit_ADS1015.h"
 Adafruit_ADS1115 ads;
-  //ads.setGain(GAIN_SIXTEEN);    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
-  
+
+
 void setup() {
   Serial.begin(9600);
   //Serial.println("Booting");
@@ -153,6 +143,12 @@ httpstr +=  "&Dst=" +fFTS(dst, 3);
 http.begin(client, httpstr);
 http.GET();
 http.end();
+
+
+  if (WiFi.status() != WL_CONNECTED) {
+    WiFi.disconnect(true);
+    WiFi.begin(ssid, password);  }
+
 }
 
 
@@ -185,7 +181,7 @@ String fFTS(float x, byte precision) {
   return String(tmp);
 }
 
-// Функция усреднения значений измерения напряжения на ADS1117 между портами 0 и 1
+// Функция усреднения значений измерения напряжения на ADS1115 между портами 0 и 1
 float adsdiff01(long count) {
     ArduinoOTA.handle();
 
