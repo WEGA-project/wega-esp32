@@ -41,8 +41,6 @@ void setup() {
 
   ArduinoOTA.setHostname("esp32wega-2");
 
-
-
   ArduinoOTA
     .onStart([]() {
       String type;
@@ -86,8 +84,11 @@ void setup() {
   //ads.setGain(GAIN_SIXTEEN);
   ads.setGain(GAIN_TWOTHIRDS);  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default) 
 
+// AHT10 > temperature and humidity
 aht.begin();
 
+//BS18B20 > temperature
+sensors.begin();
 }
 
 void loop() {
