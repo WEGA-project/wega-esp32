@@ -8,8 +8,9 @@ WebServer server(80);
 #include <WiFiClient.h>
 #include <HTTPClient.h>
 
-float pH,pHraw,tempRAW,luxRAW,dtem1,dst;
+float pH,pHraw,tempRAW,luxRAW,dtem1,dst,hall;
 double Ap,An;
+
 
 #include <Wire.h>      // Поддержка шины i2c
 #include <OneWire.h>   // Поддержка шины 1-Wire
@@ -105,13 +106,14 @@ void loop() {
   sensors_event_t humidity, temp;
   aht.getEvent(&humidity, &temp);
 
+// Termistor for EC (port, averaging counter) > RAW
+tempRAW=AnalogReadMid(32,50000);
 
 // EC sensor
 // Electrode (d-port 1,d-port 2, a-port, averaging counter) > RAW
 ec(18,19,33,80000);
 
-// Termistor for EC (port, averaging counter) > RAW
-tempRAW=AnalogReadMid(32,100000);
+
 
 // Photoresistor for Luxmetter 
 luxRAW=AnalogReadMid(35,10000);
@@ -122,6 +124,10 @@ dst=us(13,14,25,60);
 
 //pH RAW over ADS1115 > RAW
 pHraw = adsdiff01(5000); 
+
+// Integrated Hall Sensor read
+hall=hallmid(10);
+
 
 // Sending to WEGA-API 
 WiFiClient client;
@@ -139,6 +145,7 @@ httpstr +=  "&AirHum=" +fFTS(humidity.relative_humidity, 3);
 httpstr +=  "&Ap=" +fFTS(Ap, 3);
 httpstr +=  "&An=" +fFTS(An, 3);
 httpstr +=  "&Dst=" +fFTS(dst, 3);
+httpstr +=  "&hall=" +fFTS(hall, 3);
 
 
 http.begin(client, httpstr);
@@ -169,6 +176,7 @@ String httpstr="<meta http-equiv='refresh' content='10'>";
        httpstr +=  "Ap: " +fFTS(Ap, 3) + "<br>";
        httpstr +=  "An: " +fFTS(An, 3) + "<br>";
        httpstr +=  "Dst: " +fFTS(dst, 3) + "<br>";
+       httpstr +=  "hall: " +fFTS(hall, 3) + "<br>";
 
        
 server.send(200, "text/html",  httpstr);
@@ -198,9 +206,8 @@ float adsdiff01(long count) {
 
 }
 
-// Функция устреднения измерения аналогово порта
-float AnalogReadMid(int port, long count) {
-    server.handleClient();
+// Функция измерения датчиком холла
+float hallmid(long count) {
     ArduinoOTA.handle();
 
   long n=0;
@@ -209,7 +216,29 @@ float AnalogReadMid(int port, long count) {
     n++;
         server.handleClient();
     ArduinoOTA.handle();
+  sensorValue = hallRead()+sensorValue;
+ }
+ return sensorValue/n;
+}
+
+
+
+// Функция усреднения измерения аналогово порта
+float AnalogReadMid(int port, long count) {
+    server.handleClient();
+    ArduinoOTA.handle();
+    pinMode(port, INPUT);
+  long n=0;
+  double sensorValue=0;
+  while ( n< count){
+    n++;
+        server.handleClient();
+    ArduinoOTA.handle();
+      //pinMode(port, OUTPUT);
+  //digitalWrite(port, LOW);
+  //pinMode(port, INPUT);
   sensorValue = (analogRead(port))+sensorValue;
+ 
  }
  return sensorValue/n;
 
