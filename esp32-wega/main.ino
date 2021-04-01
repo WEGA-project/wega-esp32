@@ -90,6 +90,9 @@ aht.begin();
 
 //BS18B20 > temperature
 sensors.begin();
+delay(300);
+sensors.requestTemperatures();
+sensors.getTempCByIndex(0);
 }
 
 void loop() {
@@ -97,17 +100,12 @@ void loop() {
     ArduinoOTA.handle();
 
 
-//BS18B20 > temperature
- sensors.requestTemperatures();
- dtem1=sensors.getTempCByIndex(0); 
-
-
 // AHT10 > temperature and humidity
   sensors_event_t humidity, temp;
   aht.getEvent(&humidity, &temp);
 
 // Termistor for EC (port, averaging counter) > RAW
-tempRAW=AnalogReadMid(32,50000);
+tempRAW=AnalogReadMid(32,500000);
 
 // EC sensor
 // Electrode (d-port 1,d-port 2, a-port, averaging counter) > RAW
@@ -126,9 +124,12 @@ dst=us(13,14,25,60);
 pHraw = adsdiff01(5000); 
 
 // Integrated Hall Sensor read
-hall=hallmid(10);
+hall=hallmid(100);
 
-
+//BS18B20 > temperature
+ sensors.requestTemperatures();
+ dtem1=sensors.getTempCByIndex(0); 
+ 
 // Sending to WEGA-API 
 WiFiClient client;
 HTTPClient http;
@@ -227,16 +228,19 @@ float hallmid(long count) {
 float AnalogReadMid(int port, long count) {
     server.handleClient();
     ArduinoOTA.handle();
+    pinMode(port, OUTPUT);
+    digitalWrite(port, HIGH);
+    delayMicroseconds(1000);
     pinMode(port, INPUT);
+    delayMicroseconds(1000);
   long n=0;
   double sensorValue=0;
   while ( n< count){
     n++;
         server.handleClient();
     ArduinoOTA.handle();
-      //pinMode(port, OUTPUT);
-  //digitalWrite(port, LOW);
-  //pinMode(port, INPUT);
+    
+  
   sensorValue = (analogRead(port))+sensorValue;
  
  }
@@ -257,21 +261,21 @@ void ec(char d1,  char d2, char a0, long l) {
     pinMode(d2, OUTPUT);
 
   while (n < l) {
+
+    ArduinoOTA.handle(); 
+    
     n++;
 
     digitalWrite(d1, HIGH);
     delayMicroseconds(1);
     Ap = analogRead(a0)+Ap; 
     digitalWrite(d1, LOW); 
-    
-    ArduinoOTA.handle();
-    
+         
     digitalWrite(d2, HIGH);
     delayMicroseconds(1);
     An = analogRead(a0)+An; 
     digitalWrite(d2, LOW); 
 
-    ArduinoOTA.handle(); 
    
 
   }
