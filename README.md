@@ -3,7 +3,7 @@ Web Electronic Garden Automatic on ESP32 mk project.
 https://t.me/esp32wega
 
 ## Схема подключения:
-Тут нужна схема
+<a href="images/esp32-wega.jpg"><img src="images/esp32-wega.jpg" width="250"></a>
 
 ## Компоненты для заказа:
  1. Плата контроллера ESP32 https://aliexpress.ru/item/4000115960206.html
