@@ -78,11 +78,15 @@ File -> Preferences
 
 Tools -> Board -> Board managers
 
-<a href="images/select_esp_board.png"><img src="images/select_esp_board.png" width="250"></a>
-
 Ищем `ESP32`, выбираем версию 1.0.6 и нажимаем `intstall`
 
 <a href="images/esp_install.png"><img src="images/esp_install.png" width="250"></a>
+
+Выбираем правильную плату ESP
+
+Tools -> boards manager -> ESP32 Arduino -> NodeMCU-32S
+
+<a href="images/select_esp_board.png"><img src="images/select_esp_board.png" width="250"></a>
 
 Изначальное конфигурирование Arduino IDE закончено
 
@@ -90,9 +94,6 @@ Tools -> Board -> Board managers
 
 Вы можете пропустить следующий шаг если вы собираетесь использовать vscode как основной IDE
 
-Выбираем правильную плату ESP
-
-Tools -> boards manager -> ESP32 Arduino -> NodeMCU-32S
 
 <a name="vscode"></a>
 #### Visual Studio Code configuration
