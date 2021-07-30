@@ -148,7 +148,7 @@ String wegadb   = "esp32wega";
 <a href="images/web_info_esp.png"><img src="images/web_info_esp.png" width="250"></a>
 
 
-Ну все, код залит, экран работает.
+Ну все, код залит, веб сервер работает.
 
 <a name="ph"></a>
 ## Компоненты для модуля измерения pH
