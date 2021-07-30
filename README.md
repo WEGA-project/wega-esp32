@@ -14,7 +14,7 @@ https://t.me/esp32wega
   * [Установка платы ESP32](#esp_board_install)
   * [Visual Studio Code configuration](#vscode)
 * [Компоненты для модуля измерения pH](#ph)
-* [Корпуса для 3D печати](#*3d)
+* [Корпуса для 3D печати](#3d)
 * [Калибровка EC](#ec)
 * [Где искать помощь](#help)
 
