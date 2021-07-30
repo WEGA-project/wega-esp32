@@ -13,7 +13,7 @@ https://t.me/esp32wega
   * [Additional Boards Manager URLs](#boards_manager)
   * [Установка платы ESP32](#esp_board_install)
   * [Visual Studio Code configuration](#vscode)
-* [Залив прошивки esp32wega](#esp32wega)
+* [Залив прошивки esp32wega](#esp_wega)
 * [Компоненты для модуля измерения pH](#ph)
 * [Корпуса для 3D печати](#3d)
 * [Калибровка EC](#ec)
