@@ -115,7 +115,7 @@ Tools -> boards manager -> ESP32 Arduino -> NodeMCU-32S
 </p>
 </details>
 
-<a name="esp32wega"></a>
+<a name="esp_wega"></a>
 ### Залив прошивки esp32wega
 
 - Открываем файл прошивки из папки `esp32wega/esp32-wega/esp32-wega.ino`
