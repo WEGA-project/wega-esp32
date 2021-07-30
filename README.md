@@ -1,5 +1,5 @@
 # esp32wega
-Web Electronic Garden Automatic on ESP32 mk project.
+Web Electronic Garden Automatic on ESP32 project.
 https://t.me/esp32wega
 
 Содержание 
