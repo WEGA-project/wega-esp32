@@ -67,7 +67,13 @@ File -> Preferences
 
 <a href="images/prefs.png"><img src="images/prefs.png" width="250"></a>
 
-Вставляем ссылку на конфиг и нажимаем OK.
+И здесь нам надо изменить две вещи.
+
+1. Необходимо указать расположение вашей папки с esp32 проектом/скетчами, где находятся файлы ардуины.
+
+<a href="images/sketch_location.png"><img src="images/sketch_location.png" width="250"></a>
+
+2. Добавить ссылку на конфиг файл для установки esp32 платы. Для этого необходимо скопировать ссылку, которая приведена ниже и вставить ее в поле, которое откроется при нажатии кнопки, которая выделена красным квадратом
 
 `https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_dev_index.json`
 
