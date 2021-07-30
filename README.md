@@ -51,7 +51,7 @@ https://t.me/esp32wega
  1. Монтажная плата https://aliexpress.ru/item/32546265487.html
  1. Провода и резисторы ...
 
-<a name="isntall"></a>
+<a name="install"></a>
 ### Установка софта(Install software)
 
 <a name="arduino"></a>
