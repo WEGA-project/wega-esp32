@@ -13,6 +13,7 @@ https://t.me/esp32wega
   * [Additional Boards Manager URLs](#boards_manager)
   * [Установка платы ESP32](#esp_board_install)
   * [Visual Studio Code configuration](#vscode)
+* [Залив прошивки esp32wega](#esp32wega)
 * [Компоненты для модуля измерения pH](#ph)
 * [Корпуса для 3D печати](#3d)
 * [Калибровка EC](#ec)
@@ -113,6 +114,41 @@ Tools -> boards manager -> ESP32 Arduino -> NodeMCU-32S
 [Здесь видео пример как это сделать](https://www.youtube.com/watch?v=FnEvJXpxxNM)
 </p>
 </details>
+
+<a name="esp32wega"></a>
+### Залив прошивки esp32wega
+
+- Открываем файл прошивки из папки `esp32wega/esp32-wega/esp32-wega.ino`
+- Обновляем `ssid` - имя вашей сети и `password` - пароль для вашего WiFi.
+- Обновляем `wegaapi` - необходимо вставить IP address WEGA сервера
+- Обновляем `wegaauth` - необходимо сгенерировать токен для авторизации запросов через API
+- Обновляем `wegadb` - необходимо указать имя базы данных
+
+```bash
+const char* ssid = "YOUR_WIFI_NETWORK_NAME";
+const char* password = "YOUR_WIFI_PASSWORD";
+String wegaapi  = "http://192.168.1.XX/wega-api/esp32wega.php"; 
+String wegaauth = "adab637320e5c47624cdd15169276981";              
+String wegadb   = "esp32wega";
+```
+
+- Сохраняем код
+- Подключаем `USB` кабель к `esp` плате и выбираем `Tools -> Port` и выбираем ваш порт консольного подключения
+
+<a href="images/upload.png"><img src="images/upload.png" width="250"></a>
+
+- Нажимаем upload/загрузить
+
+Как только код/скетч будет загружен на плату и произойдет перезагрузка, можно увидеть адрес `esp32-wega`, для этого необходимо открыть меню `Tools -> Port`
+
+<a href="images/wifi_address.png"><img src="images/wifi_address.png" width="250"></a>
+
+Теперь можно попробовать зайти на этот адрес через браузер, вы увидете, страницу с данными
+
+<a href="images/web_info_esp.png"><img src="images/web_info_esp.png" width="250"></a>
+
+
+Ну все, код залит, экран работает.
 
 <a name="ph"></a>
 ## Компоненты для модуля измерения pH
