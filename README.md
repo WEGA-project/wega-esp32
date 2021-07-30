@@ -13,7 +13,8 @@ https://t.me/esp32wega
   * [Additional Boards Manager URLs](#boards_manager)
   * [Установка платы ESP32](#esp_board_install)
   * [Visual Studio Code configuration](#vscode)
-  * [Проверка правильности выбранных настроек](#config-check)
+* [Компоненты для модуля измерения pH](#ph)
+* [Корпуса для 3D печати](*3d)
 * [Где искать помощь](#help)
 
 <!--te-->
@@ -112,6 +113,7 @@ Tools -> boards manager -> ESP32 Arduino -> NodeMCU-32S
 </p>
 </details>
 
+<a name="ph"></a>
 ## Компоненты для модуля измерения pH
  1. АЦП ADS1115 https://aliexpress.ru/item/32954034047.html
  1. Изолятор питания B1205S-2W https://aliexpress.ru/item/1005001291619304.html
@@ -120,6 +122,7 @@ Tools -> boards manager -> ESP32 Arduino -> NodeMCU-32S
  1. Шилд pH https://aliexpress.ru/item/1005001672420703.html
  1. Набор для калибровки pH https://aliexpress.ru/item/33025867435.html
 
+<a name="3d"></a>
 ## Корпуса для 3D печати
  * Изготовление электрода ЕС: https://t.me/esp32wega/87
  * Корпус для контроллера: https://t.me/esp32wega/2850
