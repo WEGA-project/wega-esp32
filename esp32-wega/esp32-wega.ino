@@ -12,7 +12,7 @@ const char* password = "PASSWORD";
 
 // Параметры подключения к WEGA-API
 // Адрес wega-api где ADDRESS адрес установленного сервера WEGA-API https://github.com/WEGA-project/WEGA/wiki/install
-String wegaapi  = "http://ADDRESS/wega-api/esp32wega.php"; 
+String wegaapi  = "http://WEGA_IP_ADDRESS/wega-api/esp32wega.php"; 
 
 // Код доступа к api смотри файл /var/WEGA/wega-api/esp32wega.php
 // Ключ тут: $auth="adab637320e5c47624cdd15169276981";
