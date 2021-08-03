@@ -49,10 +49,11 @@ https://t.me/esp32wega
  1. Фоторезистор 5528 для измерения света https://aliexpress.ru/item/1125719348.html
  1. Датчик расстояния для измерения уровня https://aliexpress.ru/item/4000899658467.html
  1. Стабилизатор для питания контроллера MP1584E https://aliexpress.ru/item/32706897605.html
- 1. Терморезистор 100кОм для компенсации ЕС https://aliexpress.ru/item/32865194243.html
+ 1. Терморезистор 100кОм для компенсации ЕС https://aliexpress.ru/item/32865194243.html или https://aliexpress.ru/item/32957320014.html
  1. Водонепроницаемый ds18b20 датчик температуры корней https://aliexpress.ru/item/32832225749.html
- 1. Монтажная плата https://aliexpress.ru/item/32546265487.html
- 1. Провода и резисторы ...
+ 1. Монтажная плата https://aliexpress.ru/item/32546265487.html или https://www.aliexpress.com/item/32512415633.html
+ 1. Набор резисторов https://www.aliexpress.com/item/1005002275520555.html
+ 1. Провода ...
 
 <a name="install"></a>
 ### Установка софта(Install software)
