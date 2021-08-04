@@ -45,11 +45,11 @@ https://t.me/esp32wega
 
 <a name="what_to_buy"></a>
 ## Компоненты для заказа
- 1. Плата контроллера ESP32 https://aliexpress.ru/item/4000115960206.html
- 1. Датчик влажности ATH10 https://aliexpress.ru/item/4000961263862.html
- 1. Фоторезистор 5528 для измерения света https://aliexpress.ru/item/1125719348.html
- 1. Датчик расстояния для измерения уровня https://aliexpress.ru/item/4000899658467.html
- 1. Стабилизатор для питания контроллера MP1584E https://aliexpress.ru/item/32706897605.html
+ 1. Плата контроллера [ESP32-WROOM-32D или ESP32-WROOM-32U](https://www.aliexpress.com/wholesale?&SearchText=ESP32-WROOM-32D+ESP32-WROOM-32U+)
+ 1. Датчик температуры и влажности [ATH10](https://aliexpress.ru/item/4000961263862.html) если позиция не доступна [поиск](https://aliexpress.ru/wholesale?SearchText=AHT10)
+ 1. Фоторезистор [GL5528](https://aliexpress.ru/wholesale?SearchText=GL5528) для измерения света. Пример позиции https://aliexpress.ru/item/1125719348.html
+ 1. Датчик расстояния для измерения уровня [US-025](https://www.aliexpress.com/wholesale?&SearchText=Ultrasonic+Ranging+Module+US-025)
+ 1. Стабилизатор для питания контроллера [mini560 5V](https://aliexpress.ru/wholesale?&SearchText=mini560+step+down+5V)
  1. Терморезистор 100кОм для компенсации ЕС https://aliexpress.ru/item/32865194243.html или https://aliexpress.ru/item/32957320014.html
  1. Водонепроницаемый ds18b20 датчик температуры корней https://aliexpress.ru/item/32832225749.html
  1. Монтажная плата https://aliexpress.ru/item/32546265487.html или https://www.aliexpress.com/item/32512415633.html
