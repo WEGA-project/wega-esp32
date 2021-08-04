@@ -61,7 +61,7 @@ https://t.me/esp32wega
 PCB плата находится в стадии активной разработки и тестирования, по этому если планируете заказать плату то иммейте ввиду, что нет ни какой гарантий,
 что все будет работать как надо.
 
-PCB плата[ESP32-WEGA](https://oshwlab.com/siv237/esp32wega4)
+PCB плата [ESP32-WEGA](https://oshwlab.com/siv237/esp32wega4)
 
 <a name="install"></a>
 ### Установка софта(Install software)
