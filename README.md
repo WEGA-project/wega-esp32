@@ -41,7 +41,7 @@ https://t.me/esp32wega
 
 <a name="schema"></a>
 ## Схема подключения
-<a href="images/esp32-wega-v4.jpg"><img src="images/esp32-wega-v4.jpg" width="250"></a>
+<a href="images/esp32-wega-v1.jpg"><img src="images/esp32-wega-v1.jpg" width="250"></a>
 
 <a name="what_to_buy"></a>
 ## Компоненты для заказа
