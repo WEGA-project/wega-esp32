@@ -63,6 +63,8 @@ PCB плата находится в стадии активной разраб�
 
 PCB плата [ESP32-WEGA](https://oshwlab.com/siv237/esp32wega4)
 
+<a href="images/pcb-esp32-wega.png"><img src="images/pcb-esp32-wega.png" width="250"></a>
+
 <a name="install"></a>
 ### Установка софта(Install software)
 
