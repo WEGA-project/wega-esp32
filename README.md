@@ -8,6 +8,7 @@ https://t.me/esp32wega
 * [Минимальные требования и знания](#what_to_know)
 * [Схема подключения компонентов](#schema)
 * [Что потребуется купить(ESP32, датчики, резисторы)](#what_to_buy)
+* [PCB плата](#pcb)
 * [Установка софта](#install)
   * [Arduino IDE](#arduino)
   * [Additional Boards Manager URLs](#boards_manager)
@@ -40,7 +41,7 @@ https://t.me/esp32wega
 
 <a name="schema"></a>
 ## Схема подключения
-<a href="images/esp32-wega-v1.jpg"><img src="images/esp32-wega-v1.jpg" width="250"></a>
+<a href="images/esp32-wega-v4.jpg"><img src="images/esp32-wega-v4.jpg" width="250"></a>
 
 <a name="what_to_buy"></a>
 ## Компоненты для заказа
@@ -54,6 +55,13 @@ https://t.me/esp32wega
  1. Монтажная плата https://aliexpress.ru/item/32546265487.html или https://www.aliexpress.com/item/32512415633.html
  1. Набор резисторов https://www.aliexpress.com/item/1005002275520555.html
  1. Провода ...
+
+<a name="pcb"></a>
+#### PCB плата
+PCB плата находится в стадии активной разработки и тестирования, по этому если планируете заказать плату то иммейте ввиду, что нет ни какой гарантий,
+что все будет работать как надо.
+
+PCB плата[ESP32-WEGA](https://oshwlab.com/siv237/esp32wega4)
 
 <a name="install"></a>
 ### Установка софта(Install software)
