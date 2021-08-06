@@ -61,7 +61,7 @@ https://t.me/esp32wega
 PCB плата находится в стадии активной разработки и тестирования, по этому если планируете заказать плату то иммейте ввиду, что нет ни какой гарантий,
 что все будет работать как надо.
 
-PCB плата [ESP32-WEGA](https://oshwlab.com/siv237/esp32wega4)
+PCB плата [WEGA-ESP32](https://oshwlab.com/siv237/esp32wega4)
 
 <a href="images/pcb-esp32-wega.png"><img src="images/pcb-esp32-wega.png" width="250"></a>
 
@@ -127,7 +127,7 @@ Tools -> boards manager -> ESP32 Arduino -> NodeMCU-32S
 </details>
 
 <a name="esp_wega"></a>
-### Залив прошивки esp32wega
+### Залив прошивки WEGA-ESP32
 
 - Открываем файл прошивки из папки `esp32wega/esp32-wega/esp32-wega.ino`
 - Обновляем `ssid` - имя вашей сети и `password` - пароль для вашего WiFi.
@@ -201,7 +201,7 @@ String wegadb   = "esp32wega";
 ### Где искать помощь
 
 Если у вас все еще есть вопросы по настройке, заливке и гонфигурированни этого дозера/миксера, 
-то их всегда можно задать в официальном телеграмм канале [esp32-wega](https://t.me/esp32wega)
+то их всегда можно задать в официальном телеграмм канале [WEGA-ESP32](https://t.me/esp32wega)
 
 **!!! ВАЖНО !!!**
 
