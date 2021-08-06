@@ -1,4 +1,4 @@
-# esp32wega
+# WEGA-ESP32
 Web Electronic Garden Automatic on ESP32 project.
 https://t.me/esp32wega
 
