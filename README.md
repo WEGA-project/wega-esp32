@@ -45,6 +45,7 @@ https://t.me/esp32wega
 
 <a name="what_to_buy"></a>
 ## Компоненты для заказа
+https://my.aliexpress.com/wishlist/shared.htm?groupId=1000000009461501
  1. Плата контроллера [ESP32-WROOM-32D или ESP32-WROOM-32U](https://www.aliexpress.com/wholesale?&SearchText=ESP32-WROOM-32D+ESP32-WROOM-32U+)
  1. Датчик температуры и влажности [ATH10](https://aliexpress.ru/wholesale?SearchText=AHT10). [Пример позиции](https://aliexpress.ru/item/4000961263862.html)
  1. Фоторезистор [GL5528](https://aliexpress.ru/wholesale?SearchText=GL5528) для измерения света. [Пример позиции](https://aliexpress.ru/item/1125719348.html)
@@ -63,7 +64,7 @@ PCB плата находится в стадии активной разраб�
 что все будет работать как надо.
 
 PCB плата [WEGA-ESP32](https://oshwlab.com/siv237/esp32wega4)
-
+https://easyeda.com/siv237/esp32wega4-2
 <a href="images/pcb-esp32-wega.png"><img src="images/pcb-esp32-wega.png" width="250"></a> 
 -->
 
