@@ -35,6 +35,7 @@ Web Electronic Garden Automatic on ESP32 project.
 * [Залив прошивки esp32wega](#esp_wega)
 * [Компоненты для модуля измерения pH](#ph)
 * [Корпуса для 3D печати](#3d)
+* [Распиновка jack](#jack)
 * [Калибровка EC](#ec)
 * [Где искать помощь](#help)
 
@@ -215,7 +216,9 @@ String wegadb   = "esp32wega";
 
 Файлы для печати корпус для датчика AHT10 можно найти [здесь](./images/aht)
 
-
+<a name="jack"></a>
+#### Распиновка jack коннекторов
+[Здесь](https://github.com/WEGA-project/WEGA-ESP32/blob/master/images/jack.jpeg) можно посмотреть распиновку jack коннекторов для разных компонентов. Таких как ЕС, pH, AHT10 и так далее. 
 
 <a name="ec"></a>
 ## Калибровка EC
