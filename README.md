@@ -125,9 +125,14 @@ Tools -> Board -> Board managers
 
 Выбираем правильную плату ESP
 
-Tools -> boards manager -> ESP32 Arduino -> NodeMCU-32S
+`Tools -> boards manager -> ESP32 Arduino -> NodeMCU-32S`
 
 <a href="images/select_esp_board.png"><img src="images/select_esp_board.png" width="250"></a>
+
+Выбираем `Upload Speed` `115200` или меньше.
+
+<a href="https://user-images.githubusercontent.com/13055750/133100581-065cda4c-d4d8-4a1a-9178-c2b2205559d9.png"><img src="https://user-images.githubusercontent.com/13055750/133100581-065cda4c-d4d8-4a1a-9178-c2b2205559d9.png" width="250"></a>
+
 
 Изначальное конфигурирование Arduino IDE закончено
 
