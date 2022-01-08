@@ -4,6 +4,9 @@ Web Electronic Garden Automatic on ESP32 project.
 
 Телеграмм канал проекта [WEGA-ESP32](https://t.me/esp32wega)
 
+Данный репозитории не актуален, используйте прошивку из [wegabox](https://github.com/WEGA-project/wegabox)
+
+
 И так, что же такое **WEGA-ESP32(WEGA-Box)**
 
 **WEGA-ESP32** это система контроля и мониторинга состояния гидропонной системы, куда входят следущие возможности
